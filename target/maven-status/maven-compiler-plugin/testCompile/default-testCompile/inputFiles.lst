@@ -1,1 +1,4 @@
-/home/moutella/Documents/PUC MINAS/ARQ Software JAVA/projeto/src/test/java/br/com/aulas/projeto/ProjetoApplicationTests.java
+/Users/micaelecarvalho/Documents/Java/ARQ_JAVA_PUC/src/test/java/br/com/aulas/projeto/ProjetoApplicationTests.java
+/Users/micaelecarvalho/Documents/Java/ARQ_JAVA_PUC/src/test/java/br/com/aulas/projeto/controllers/AlunoControllerTest.java
+/Users/micaelecarvalho/Documents/Java/ARQ_JAVA_PUC/src/test/java/br/com/aulas/projeto/repositories/AlunoRepositoryTest.java
+/Users/micaelecarvalho/Documents/Java/ARQ_JAVA_PUC/src/test/java/br/com/aulas/projeto/services/AlunoServiceTest.java

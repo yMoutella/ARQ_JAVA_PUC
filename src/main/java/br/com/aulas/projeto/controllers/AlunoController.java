@@ -1,26 +1,25 @@
 package br.com.aulas.projeto.controllers;
 
-import java.util.ArrayList;
-
+import br.com.aulas.projeto.dtos.AlunoDto;
+import br.com.aulas.projeto.services.AlunoService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import br.com.aulas.projeto.dtos.AlunoDto;
-import jakarta.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "aluno")
 public class AlunoController {
 
-    private static ArrayList<AlunoDto> alunos = new ArrayList<>();
+    @Autowired
+    private AlunoService alunoService;
 
     @GetMapping()
     public ResponseEntity<Object> getAluno() {
+        List<AlunoDto> alunos = alunoService.getAlunos();
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(alunos);
     }
 
@@ -28,9 +27,8 @@ public class AlunoController {
     public ResponseEntity<Object> postAluno(
             @Valid @RequestBody AlunoDto alunoDto) {
 
-        this.alunos.add(alunoDto);
+        alunoService.addAluno(alunoDto);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(alunoDto);
     }
-
 }
