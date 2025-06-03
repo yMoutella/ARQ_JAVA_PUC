@@ -1,21 +1,21 @@
 package br.com.aulas.projeto.controllers;
 
-import br.com.aulas.projeto.dtos.AlunoDto;
-import br.com.aulas.projeto.services.AlunoService;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import br.com.aulas.projeto.dtos.AlunoDto;
+import br.com.aulas.projeto.services.AlunoService;
 
 @ExtendWith(MockitoExtension.class)
 class AlunoControllerTest {
@@ -42,7 +42,7 @@ class AlunoControllerTest {
     void testPostAlunoRetornaStatusECadastraAluno() {
         AlunoDto dto = new AlunoDto();
 
-        ResponseEntity<Object> response = alunoController.postAluno(dto);
+        ResponseEntity<Object> response = alunoController.createAluno(dto);
 
         assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
         assertEquals(dto, response.getBody());
