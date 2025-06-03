@@ -44,7 +44,7 @@ class AlunoControllerTest {
 
         ResponseEntity<Object> response = alunoController.createAluno(dto);
 
-        assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(dto, response.getBody());
         verify(alunoService).addAluno(dto);
     }
