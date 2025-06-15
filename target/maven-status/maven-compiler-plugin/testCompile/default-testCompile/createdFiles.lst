@@ -1,4 +1,5 @@
 br/com/aulas/projeto/services/AlunoServiceTest.class
+br/com/aulas/projeto/exceptions/AlunoNotFoundExceptionTest.class
 br/com/aulas/projeto/repositories/AlunoRepositoryTest.class
 br/com/aulas/projeto/controllers/AlunoControllerTest.class
 br/com/aulas/projeto/ProjetoApplicationTests.class

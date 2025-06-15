@@ -1,20 +1,15 @@
 package br.com.aulas.projeto.repositories;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import br.com.aulas.projeto.dtos.AlunoDto;
+import br.com.aulas.projeto.entities.AlunoEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-public class AlunoRepository {
-    private final List<AlunoDto> alunos = new ArrayList<>();
-
-    public List<AlunoDto> findAll() {
-        return alunos;
-    }
-
-    public void save(AlunoDto aluno) {
-        alunos.add(aluno);
-    }
+public interface AlunoRepository extends JpaRepository<AlunoEntity, Long> {
+    @Query("SELECT aluno FROM AlunoEntity aluno WHERE lower(aluno.name) = lower(:name)")
+    List<AlunoEntity> findByNameIgnoreCase(@Param("name") String name);
 }

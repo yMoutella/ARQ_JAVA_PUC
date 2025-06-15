@@ -2,5 +2,8 @@
 /Users/micaelecarvalho/Documents/Java/ARQ_JAVA_PUC/src/main/java/br/com/aulas/projeto/controllers/AlunoController.java
 /Users/micaelecarvalho/Documents/Java/ARQ_JAVA_PUC/src/main/java/br/com/aulas/projeto/controllers/GlobalExceptionHandler.java
 /Users/micaelecarvalho/Documents/Java/ARQ_JAVA_PUC/src/main/java/br/com/aulas/projeto/dtos/AlunoDto.java
+/Users/micaelecarvalho/Documents/Java/ARQ_JAVA_PUC/src/main/java/br/com/aulas/projeto/entities/AlunoEntity.java
+/Users/micaelecarvalho/Documents/Java/ARQ_JAVA_PUC/src/main/java/br/com/aulas/projeto/exceptions/AlunoNotFoundException.java
+/Users/micaelecarvalho/Documents/Java/ARQ_JAVA_PUC/src/main/java/br/com/aulas/projeto/exceptions/GlobalExceptionHandler.java
 /Users/micaelecarvalho/Documents/Java/ARQ_JAVA_PUC/src/main/java/br/com/aulas/projeto/repositories/AlunoRepository.java
 /Users/micaelecarvalho/Documents/Java/ARQ_JAVA_PUC/src/main/java/br/com/aulas/projeto/services/AlunoService.java

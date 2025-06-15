@@ -1,6 +1,8 @@
 br/com/aulas/projeto/ProjetoApplication.class
+br/com/aulas/projeto/exceptions/GlobalExceptionHandler.class
 br/com/aulas/projeto/dtos/AlunoDto.class
 br/com/aulas/projeto/controllers/AlunoController.class
-br/com/aulas/projeto/controllers/GlobalExceptionHandler.class
+br/com/aulas/projeto/entities/AlunoEntity.class
 br/com/aulas/projeto/services/AlunoService.class
+br/com/aulas/projeto/exceptions/AlunoNotFoundException.class
 br/com/aulas/projeto/repositories/AlunoRepository.class

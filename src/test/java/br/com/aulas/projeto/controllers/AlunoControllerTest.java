@@ -1,60 +1,75 @@
 package br.com.aulas.projeto.controllers;
 
-import br.com.aulas.projeto.dtos.AlunoDto;
+import br.com.aulas.projeto.entities.AlunoEntity;
+import br.com.aulas.projeto.exceptions.AlunoNotFoundException;
+import br.com.aulas.projeto.repositories.AlunoRepository;
 import br.com.aulas.projeto.services.AlunoService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class AlunoControllerTest {
 
     @Mock
-    private AlunoService alunoService;
+    private AlunoRepository alunoRepository;
 
     @InjectMocks
-    private AlunoController alunoController;
+    private AlunoService alunoService;
 
     @Test
-    void testGetAlunoRetornaStatusEBodyCorretos() {
-        AlunoDto dto = new AlunoDto();
-        when(alunoService.getAlunos()).thenReturn(List.of(dto));
+    void testGetAlunosRetornaListaCorreta() {
+        AlunoEntity alunoEntity = new AlunoEntity();
+        alunoEntity.setId(1L);
+        alunoEntity.setName("Micaele");
 
-        ResponseEntity<Object> response = alunoController.getAluno();
+        when(alunoRepository.findAll()).thenReturn(List.of(alunoEntity));
 
-        assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
-        assertEquals(List.of(dto), response.getBody());
-        verify(alunoService).getAlunos();
+        List<AlunoEntity> resultado = alunoService.findAll();
+
+        assertEquals(1, resultado.size());
+        assertEquals("Micaele", resultado.get(0).getName());
+        assertEquals(1L, resultado.get(0).getId());
+        verify(alunoRepository).findAll();
     }
 
     @Test
-    void testPostAlunoRetornaStatusECadastraAluno() {
-        AlunoDto dto = new AlunoDto();
+    void testAddAlunoChamaSaveDoRepositorio() {
+        AlunoEntity aluno = new AlunoEntity();
+        aluno.setName("Micaele");
 
-        ResponseEntity<Object> response = alunoController.postAluno(dto);
+        alunoService.saveAluno(aluno);
 
-        assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
-        assertEquals(dto, response.getBody());
-        verify(alunoService).addAluno(dto);
+        ArgumentCaptor<AlunoEntity> captor = ArgumentCaptor.forClass(AlunoEntity.class);
+        verify(alunoRepository).save(captor.capture());
+        assertEquals("Micaele", captor.getValue().getName());
     }
 
     @Test
-    void testGetAlunoLancaExcecaoQuandoServiceFalha() {
-        when(alunoService.getAlunos()).thenThrow(new RuntimeException("Erro"));
+    void testDeleteAlunoExistenteDoRepositorio() {
+        Long id = 1L;
+        when(alunoRepository.existsById(id)).thenReturn(true);
+        alunoService.deleteAluno(id);
+        verify(alunoRepository).deleteById(id);
+    }
 
-        RuntimeException thrown = assertThrows(RuntimeException.class, () -> alunoController.getAluno());
-        assertEquals("Erro", thrown.getMessage());
-        verify(alunoService).getAlunos();
+    @Test
+    void testDeleteAlunoNaoExisteDoRepositorio() {
+        Long id = 1L;
+        when(alunoRepository.existsById(id)).thenReturn(false);
+
+        Exception e = assertThrows(AlunoNotFoundException.class, () -> alunoService.deleteAluno(id));
+        assertEquals("O aluno com ID 1 não existe em nossa base de dados.", e.getMessage());
+
+        verify(alunoRepository, never()).deleteById(anyLong());
     }
 }

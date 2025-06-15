@@ -1,0 +1,13 @@
+# Compilados Java
+*.class
+
+# Diretórios de saída
+/out/
+/target/
+
+# Configurações do IntelliJ IDEA
+.idea/
+*.iml
+
+# Arquivos de sistema
+.DS_Store
