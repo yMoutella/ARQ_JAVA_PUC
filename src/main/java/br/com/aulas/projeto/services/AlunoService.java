@@ -1,23 +1,42 @@
 package br.com.aulas.projeto.services;
 
-import java.util.List;
-
-import br.com.aulas.projeto.dtos.AlunoDto;
+import br.com.aulas.projeto.entities.AlunoEntity;
+import br.com.aulas.projeto.exceptions.AlunoDuplicateException;
+import br.com.aulas.projeto.exceptions.AlunoNotFoundException;
 import br.com.aulas.projeto.repositories.AlunoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AlunoService {
 
     @Autowired
-    private AlunoRepository alunoRepository;
+    public AlunoRepository repository;
 
-    public List<AlunoDto> getAlunos() {
-        return alunoRepository.findAll();
+    public List<AlunoEntity> findAll() {
+        return repository.findAll();
     }
 
-    public void addAluno(AlunoDto aluno) {
-        alunoRepository.save(aluno);
+    public List<AlunoEntity> findByName(String name) {
+        return repository.findByNameIgnoreCase(name);
+    }
+
+    public AlunoEntity saveAluno(AlunoEntity aluno) {
+        aluno.setId(null);
+
+        List<AlunoEntity> existentes = repository.findByNameIgnoreCase(aluno.getName());
+        if (!existentes.isEmpty()) {
+            throw new AlunoDuplicateException(aluno.getName());
+        }
+        return repository.save(aluno);
+    }
+
+    public void deleteAluno(Long id) {
+        if (!repository.existsById(id)) {
+            throw new AlunoNotFoundException(id.toString());
+        }
+        repository.deleteById(id);
     }
 }

@@ -1,6 +1,6 @@
 package br.com.aulas.projeto.controllers;
 
-import br.com.aulas.projeto.dtos.AlunoDto;
+import br.com.aulas.projeto.entities.AlunoEntity;
 import br.com.aulas.projeto.services.AlunoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,24 +11,34 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "aluno")
+@RequestMapping("alunos")
 public class AlunoController {
 
     @Autowired
     private AlunoService alunoService;
 
-    @GetMapping()
-    public ResponseEntity<Object> getAluno() {
-        List<AlunoDto> alunos = alunoService.getAlunos();
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(alunos);
+    @GetMapping
+    public ResponseEntity<List<AlunoEntity>> getAlunos(@RequestParam(required = false) String name) {
+        if (name != null) {
+            List<AlunoEntity> alunos = alunoService.findByName(name);
+            if (alunos.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+            return ResponseEntity.ok(alunos);
+        }
+        return ResponseEntity.ok(alunoService.findAll());
     }
 
-    @PostMapping(value = "criar")
-    public ResponseEntity<Object> postAluno(
-            @Valid @RequestBody AlunoDto alunoDto) {
+    @PostMapping("criar")
+    public ResponseEntity<?> postAluno(
+            @Valid @RequestBody AlunoEntity alunoEntity) {
+        alunoService.saveAluno(alunoEntity);
+        return ResponseEntity.status(HttpStatus.CREATED).body(alunoEntity);
+    }
 
-        alunoService.addAluno(alunoDto);
-
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(alunoDto);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAluno(@PathVariable Long id) {
+        alunoService.deleteAluno(id);
+        return ResponseEntity.noContent().build();
     }
 }
